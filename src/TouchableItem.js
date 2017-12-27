@@ -14,6 +14,7 @@ const LOLLIPOP = 21;
 
 type Props = {
   onPress: Function,
+  onLongPress: Function,
   delayPressIn?: number,
   borderless?: boolean,
   pressColor?: string,
@@ -25,6 +26,7 @@ type Props = {
 export default class TouchableItem extends React.Component<Props> {
   static propTypes = {
     onPress: PropTypes.func.isRequired,
+    onLongPress: PropTypes.func.isRequired,
     delayPressIn: PropTypes.number,
     borderless: PropTypes.bool,
     pressColor: PropTypes.string,
@@ -40,6 +42,10 @@ export default class TouchableItem extends React.Component<Props> {
     global.requestAnimationFrame(this.props.onPress);
   };
 
+  _handleLongPress = () => {
+    global.requestAnimationFrame(this.props.onLongPress);
+  };
+
   render() {
     const { style, pressOpacity, pressColor, borderless, ...rest } = this.props;
 
@@ -48,6 +54,7 @@ export default class TouchableItem extends React.Component<Props> {
         <TouchableNativeFeedback
           {...rest}
           onPress={this._handlePress}
+          onLongPress={this._handleLongPress}
           background={TouchableNativeFeedback.Ripple(pressColor, borderless)}
         >
           <View style={style}>{React.Children.only(this.props.children)}</View>
@@ -58,6 +65,7 @@ export default class TouchableItem extends React.Component<Props> {
         <TouchableOpacity
           {...rest}
           onPress={this._handlePress}
+          onLongPress={this._handleLongPress}
           style={style}
           activeOpacity={pressOpacity}
         >
