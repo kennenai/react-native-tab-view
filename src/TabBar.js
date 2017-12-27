@@ -32,6 +32,7 @@ type Props<T> = SceneRendererProps<T> & {
   renderBadge?: (scene: Scene<T>) => ?React.Element<any>,
   renderIndicator?: (props: IndicatorProps<T>) => ?React.Element<any>,
   onTabPress?: (scene: Scene<T>) => void,
+  onTabLongPress?: (scene: Scene<T>) => void,
   tabStyle?: Style,
   indicatorStyle?: Style,
   labelStyle?: Style,
@@ -55,6 +56,7 @@ export default class TabBar<T: *> extends React.PureComponent<Props<T>, State> {
     renderLabel: PropTypes.func,
     renderIndicator: PropTypes.func,
     onTabPress: PropTypes.func,
+    onTabLongPress: PropTypes.func,
     labelStyle: PropTypes.any,
     style: PropTypes.any,
   };
@@ -237,6 +239,14 @@ export default class TabBar<T: *> extends React.PureComponent<Props<T>, State> {
     this.props.jumpToIndex(scene.index);
     if (this.props.onTabPress) {
       this.props.onTabPress(scene);
+    }
+  };
+
+  _handleTabLongPress = (scene: Scene<*>) => {
+    this._pendingIndex = scene.index;
+    this.props.jumpToIndex(scene.index);
+    if (this.props.onTabLongPress) {
+      this.props.onTabLongPress(scene);
     }
   };
 
@@ -457,6 +467,7 @@ export default class TabBar<T: *> extends React.PureComponent<Props<T>, State> {
                   pressOpacity={this.props.pressOpacity}
                   delayPressIn={0}
                   onPress={() => this._handleTabPress(scene)}
+                  onLongPress={() => this._handleTabLongPress(scene)}
                   style={tabContainerStyle}
                 >
                   <View pointerEvents="none" style={styles.container}>
