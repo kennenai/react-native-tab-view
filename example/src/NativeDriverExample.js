@@ -1,6 +1,6 @@
 /* @flow */
 
-import React, { PureComponent } from 'react';
+import * as React from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
 import {
   TabViewAnimated,
@@ -26,7 +26,7 @@ const initialLayout = {
   width: Dimensions.get('window').width,
 };
 
-export default class NativeDriverExample extends PureComponent<*, State> {
+export default class NativeDriverExample extends React.Component<*, State> {
   static title = 'Native animations';
   static backgroundColor = '#f44336';
   static appbarElevation = 0;
